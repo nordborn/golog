@@ -29,7 +29,6 @@
 //So, common message using `golog.Infoln("Started")` will be:
 //INFO: [main]: 2018/11/26 16:57:49 main.go:61: Started
 
-
 package golog
 
 import "os"
@@ -78,7 +77,7 @@ func SetOutput(out, err *os.File) {
 // Tip: use trace messages for developing process to trace
 // function calls.
 func Trace(v ...interface{}) {
-	globalLog.traceLogger.Print(v...)
+	globalLog.Trace(v...)
 }
 
 // Traceln prints trace message to globalLog.outFile.
@@ -87,7 +86,7 @@ func Trace(v ...interface{}) {
 // Tip: use trace messages for developing process to trace
 // function calls.
 func Traceln(v ...interface{}) {
-	globalLog.traceLogger.Println(v...)
+	globalLog.Traceln(v...)
 }
 
 // Tracef prints trace message to globalLog.outFile.
@@ -96,7 +95,7 @@ func Traceln(v ...interface{}) {
 // Tip: use trace messages for developing process to trace
 // function calls.
 func Tracef(format string, v ...interface{}) {
-	globalLog.traceLogger.Printf(format, v...)
+	globalLog.Tracef(format, v...)
 }
 
 // Debug prints debug message to globalLog.outFile.
@@ -128,7 +127,7 @@ func Debugf(format string, v ...interface{}) {
 // Arguments are handled in the manner of fmt.Print.
 // Tip: use info messages for common information.
 func Info(v ...interface{}) {
-	globalLog.infoLogger.Print(v...)
+	globalLog.Info(v...)
 }
 
 // Infoln prints info message to globalLog.outFile.
@@ -136,7 +135,7 @@ func Info(v ...interface{}) {
 // Arguments are handled in the manner of fmt.Println.
 // Tip: use info messages for common information.
 func Infoln(v ...interface{}) {
-	globalLog.infoLogger.Println(v...)
+	globalLog.Infoln(v...)
 }
 
 // Infof prints info message to globalLog.outFile.
@@ -144,22 +143,22 @@ func Infoln(v ...interface{}) {
 // Arguments are handled in the manner of fmt.Printf.
 // Tip: use info messages for common information.
 func Infof(format string, v ...interface{}) {
-	globalLog.infoLogger.Printf(format, v...)
+	globalLog.Infof(format, v...)
 }
 
 // Print is equivalent to globalLog.Info()
 func Print(v ...interface{}) {
-	globalLog.infoLogger.Print(v...)
+	globalLog.Print(v...)
 }
 
 // Println is equivalent to globalLog.Infoln()
 func Println(v ...interface{}) {
-	globalLog.infoLogger.Println(v...)
+	globalLog.Println(v...)
 }
 
 // Printf is equivalent to globalLog.Infof()
 func Printf(format string, v ...interface{}) {
-	globalLog.infoLogger.Printf(format, v...)
+	globalLog.Printf(format, v...)
 }
 
 // Warning prints warning message to globalLog.errFile.
@@ -168,7 +167,7 @@ func Printf(format string, v ...interface{}) {
 // Tip: use warning messages for handled errors which don't brake
 // business logic but should be noted (mostly for developers).
 func Warning(v ...interface{}) {
-	globalLog.warningLogger.Print(v...)
+	globalLog.Warning(v...)
 }
 
 // Warningln prints warning message to globalLog.errFile.
@@ -177,7 +176,7 @@ func Warning(v ...interface{}) {
 // Tip: use warning messages for handled errors which don't brake
 // business logic but should be noted (mostly for developers).
 func Warningln(v ...interface{}) {
-	globalLog.warningLogger.Println(v...)
+	globalLog.Warningln(v...)
 }
 
 // Warningf prints warning message to globalLog.errFile.
@@ -186,7 +185,7 @@ func Warningln(v ...interface{}) {
 // Tip: use warning messages for handled errors which don't brake
 // business logic but should be noted (mostly for developers).
 func Warningf(format string, v ...interface{}) {
-	globalLog.warningLogger.Printf(format, v...)
+	globalLog.Warningf(format, v...)
 }
 
 // Error prints info message to globalLog.errFile.
@@ -195,7 +194,7 @@ func Warningf(format string, v ...interface{}) {
 // Tip: use error messages for errors which mostly don't brake
 // business logic.
 func Error(v ...interface{}) {
-	globalLog.errorLogger.Print(v...)
+	globalLog.Error(v...)
 }
 
 // Errorln prints info message to globalLog.errFile.
@@ -204,7 +203,7 @@ func Error(v ...interface{}) {
 // Tip: use error messages for errors which mostly don't brake
 // business logic.
 func Errorln(v ...interface{}) {
-	globalLog.errorLogger.Println(v...)
+	globalLog.Errorln(v...)
 }
 
 // Errorf prints info message to globalLog.errFile.
@@ -213,7 +212,7 @@ func Errorln(v ...interface{}) {
 // Tip: use error messages for errors which mostly don't brake
 // business logic.
 func Errorf(format string, v ...interface{}) {
-	globalLog.errorLogger.Printf(format, v...)
+	globalLog.Errorf(format, v...)
 }
 
 // Critical prints critical message to globalLog.errFile.
@@ -222,7 +221,7 @@ func Errorf(format string, v ...interface{}) {
 // Tip: use critical messages for errors which may brake
 // business logic.
 func Critical(v ...interface{}) {
-	globalLog.criticalLogger.Print(v...)
+	globalLog.Critical(v...)
 }
 
 // Criticalln prints critical message to globalLog.errFile.
@@ -231,7 +230,7 @@ func Critical(v ...interface{}) {
 // Tip: use critical messages for errors which may brake
 // business logic.
 func Criticalln(v ...interface{}) {
-	globalLog.criticalLogger.Println(v...)
+	globalLog.Criticalln(v...)
 }
 
 // Criticalf prints critical message to globalLog.errFile.
@@ -240,22 +239,22 @@ func Criticalln(v ...interface{}) {
 // Tip: use critical messages for errors which may brake
 // business logic.
 func Criticalf(format string, v ...interface{}) {
-	globalLog.criticalLogger.Printf(format, v...)
+	globalLog.Criticalf(format, v...)
 }
 
 // Panic is equivalent to globalLog.Critical() followed by a call to panic().
 func Panic(v ...interface{}) {
-	globalLog.fatalLogger.Panic(v...)
+	globalLog.Panic(v...)
 }
 
 // Panicln is equivalent to globalLog.Criticalln() followed by a call to panic().
 func Panicln(v ...interface{}) {
-	globalLog.fatalLogger.Panicln(v...)
+	globalLog.Panicln(v...)
 }
 
 // Panicln is equivalent to globalLog.Criticalf() followed by a call to panic().
 func Panicf(format string, v ...interface{}) {
-	globalLog.fatalLogger.Panicf(format, v...)
+	globalLog.Panicf(format, v...)
 }
 
 // Fatal prints fatal message to globalLog.errFile.
@@ -263,7 +262,7 @@ func Panicf(format string, v ...interface{}) {
 // followed by a call to os.Exit(1).
 // Note: recover() can't intercept Fatal.
 func Fatal(v ...interface{}) {
-	globalLog.fatalLogger.Fatal(v...)
+	globalLog.Fatal(v...)
 }
 
 // Fatalln prints fatal message to l.errFile.
@@ -271,7 +270,7 @@ func Fatal(v ...interface{}) {
 // followed by a call to os.Exit(1).
 // Note: recover() can't intercept Fatalf.
 func Fatalln(v ...interface{}) {
-	globalLog.fatalLogger.Fatalln(v...)
+	globalLog.Fatalln(v...)
 }
 
 // Fatalf prints fatal message to globalLog.errFile.
@@ -279,5 +278,10 @@ func Fatalln(v ...interface{}) {
 // followed by a call to os.Exit(1).
 // Note: recover() can't intercept Fatalf.
 func Fatalf(format string, v ...interface{}) {
-	globalLog.fatalLogger.Fatalf(format, v...)
+	globalLog.Fatalf(format, v...)
+}
+
+func init() {
+	// necessary to provide correct call point
+	globalLog.setCallDepth(4)
 }

@@ -1,6 +1,7 @@
 package golog
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -29,6 +30,7 @@ type Logger struct {
 	level          levelType
 	outFile        *os.File
 	errFile        *os.File
+	calldepth      int
 }
 
 func (l *Logger) updInternalLoggers() {
@@ -65,9 +67,18 @@ func New(customPrefix string, flags int) *Logger {
 	l := Logger{}
 	l.outFile = OutDefault
 	l.errFile = ErrDefault
+	l.calldepth = 3 // as for log.Logger
 	l.SetPrefix(customPrefix)
 	l.SetFlags(flags)
 	return &l
+}
+
+// only for global logger
+func (l *Logger) setCallDepth(v int) {
+	if v < 1 {
+		v = 1
+	}
+	l.calldepth = v
 }
 
 // SetLevel sets the output level for the logger.
@@ -122,13 +133,25 @@ func (l *Logger) SetOutput(out, err *os.File) {
 	l.updOutputsToLevel()
 }
 
+func outputln(calldepth int, ll *log.Logger, v ...interface{}) {
+	ll.Output(calldepth, fmt.Sprintln(v...))
+}
+
+func output(calldepth int, ll *log.Logger, v ...interface{}) {
+	ll.Output(calldepth, fmt.Sprint(v...))
+}
+
+func outputf(calldepth int, ll *log.Logger, format string, v ...interface{}) {
+	ll.Output(calldepth, fmt.Sprintf(format, v...))
+}
+
 // Trace prints trace message to l.outFile.
 // Trace calls l.traceLogger.Print to print to the logger.
 // Arguments are handled in the manner of fmt.Print.
 // Tip: use trace messages for developing process to trace
 // function calls.
 func (l *Logger) Trace(v ...interface{}) {
-	l.traceLogger.Print(v...)
+	output(l.calldepth, l.traceLogger, v...)
 }
 
 // Traceln prints trace message to l.outFile.
@@ -137,7 +160,7 @@ func (l *Logger) Trace(v ...interface{}) {
 // Tip: use trace messages for developing process to trace
 // function calls.
 func (l *Logger) Traceln(v ...interface{}) {
-	l.traceLogger.Println(v...)
+	outputln(l.calldepth, l.traceLogger, v...)
 }
 
 // Tracef prints trace message to l.outFile.
@@ -146,7 +169,7 @@ func (l *Logger) Traceln(v ...interface{}) {
 // Tip: use trace messages for developing process to trace
 // function calls.
 func (l *Logger) Tracef(format string, v ...interface{}) {
-	l.traceLogger.Printf(format, v...)
+	outputf(l.calldepth, l.traceLogger, format, v...)
 }
 
 // Debug prints debug message to l.outFile.
@@ -154,7 +177,7 @@ func (l *Logger) Tracef(format string, v ...interface{}) {
 // Arguments are handled in the manner of fmt.Print.
 // Tip: use debug messages to debug your business logic.
 func (l *Logger) Debug(v ...interface{}) {
-	l.debugLogger.Print(v...)
+	output(l.calldepth, l.debugLogger, v...)
 }
 
 // Debugln prints debug message to l.outFile.
@@ -162,7 +185,7 @@ func (l *Logger) Debug(v ...interface{}) {
 // Arguments are handled in the manner of fmt.Println.
 // Tip: use debug messages to debug your business logic.
 func (l *Logger) Debugln(v ...interface{}) {
-	l.debugLogger.Println(v...)
+	outputln(l.calldepth, l.debugLogger, v...)
 }
 
 // Debugf prints debug message to l.outFile.
@@ -170,7 +193,7 @@ func (l *Logger) Debugln(v ...interface{}) {
 // Arguments are handled in the manner of fmt.Printf.
 // Tip: use debug messages to debug your business logic.
 func (l *Logger) Debugf(format string, v ...interface{}) {
-	l.debugLogger.Printf(format, v...)
+	outputf(l.calldepth, l.debugLogger, format, v...)
 }
 
 // Info prints info message to l.outFile.
@@ -178,7 +201,7 @@ func (l *Logger) Debugf(format string, v ...interface{}) {
 // Arguments are handled in the manner of fmt.Print.
 // Tip: use info messages for common information.
 func (l *Logger) Info(v ...interface{}) {
-	l.infoLogger.Print(v...)
+	output(l.calldepth, l.infoLogger, v...)
 }
 
 // Infoln prints info message to l.outFile.
@@ -186,7 +209,7 @@ func (l *Logger) Info(v ...interface{}) {
 // Arguments are handled in the manner of fmt.Println.
 // Tip: use info messages for common information.
 func (l *Logger) Infoln(v ...interface{}) {
-	l.infoLogger.Println(v...)
+	outputln(l.calldepth, l.infoLogger, v...)
 }
 
 // Infof prints info message to l.outFile.
@@ -194,22 +217,22 @@ func (l *Logger) Infoln(v ...interface{}) {
 // Arguments are handled in the manner of fmt.Printf.
 // Tip: use info messages for common information.
 func (l *Logger) Infof(format string, v ...interface{}) {
-	l.infoLogger.Printf(format, v...)
+	outputf(l.calldepth, l.infoLogger, format, v...)
 }
 
 // Print is equivalent to l.Info()
 func (l *Logger) Print(v ...interface{}) {
-	l.infoLogger.Print(v...)
+	output(l.calldepth, l.infoLogger, v...)
 }
 
 // Println is equivalent to l.Infoln()
 func (l *Logger) Println(v ...interface{}) {
-	l.infoLogger.Println(v...)
+	outputln(l.calldepth, l.infoLogger, v...)
 }
 
 // Printf is equivalent to l.Infof()
 func (l *Logger) Printf(format string, v ...interface{}) {
-	l.infoLogger.Printf(format, v...)
+	outputf(l.calldepth, l.infoLogger, format, v...)
 }
 
 // Warning prints warning message to l.errFile.
@@ -218,7 +241,7 @@ func (l *Logger) Printf(format string, v ...interface{}) {
 // Tip: use warning messages for handled errors which don't brake
 // business logic but should be noted (mostly for developers).
 func (l *Logger) Warning(v ...interface{}) {
-	l.warningLogger.Print(v...)
+	output(l.calldepth, l.warningLogger, v...)
 }
 
 // Warningln prints warning message to l.errFile.
@@ -227,7 +250,7 @@ func (l *Logger) Warning(v ...interface{}) {
 // Tip: use warning messages for handled errors which don't brake
 // business logic but should be noted (mostly for developers).
 func (l *Logger) Warningln(v ...interface{}) {
-	l.warningLogger.Println(v...)
+	outputln(l.calldepth, l.warningLogger, v...)
 }
 
 // Warningf prints warning message to l.errFile.
@@ -236,7 +259,7 @@ func (l *Logger) Warningln(v ...interface{}) {
 // Tip: use warning messages for handled errors which don't brake
 // business logic but should be noted (mostly for developers).
 func (l *Logger) Warningf(format string, v ...interface{}) {
-	l.warningLogger.Printf(format, v...)
+	outputf(l.calldepth, l.warningLogger, format, v...)
 }
 
 // Error prints info message to l.errFile.
@@ -245,7 +268,7 @@ func (l *Logger) Warningf(format string, v ...interface{}) {
 // Tip: use error messages for errors which mostly don't brake
 // business logic.
 func (l *Logger) Error(v ...interface{}) {
-	l.errorLogger.Print(v...)
+	output(l.calldepth, l.errorLogger, v...)
 }
 
 // Errorln prints info message to l.errFile.
@@ -254,7 +277,7 @@ func (l *Logger) Error(v ...interface{}) {
 // Tip: use error messages for errors which mostly don't brake
 // business logic.
 func (l *Logger) Errorln(v ...interface{}) {
-	l.errorLogger.Println(v...)
+	outputln(l.calldepth, l.errorLogger, v...)
 }
 
 // Errorf prints info message to l.errFile.
@@ -263,7 +286,7 @@ func (l *Logger) Errorln(v ...interface{}) {
 // Tip: use error messages for errors which mostly don't brake
 // business logic.
 func (l *Logger) Errorf(format string, v ...interface{}) {
-	l.errorLogger.Printf(format, v...)
+	outputf(l.calldepth, l.errorLogger, format, v...)
 }
 
 // Critical prints critical message to l.errFile.
@@ -272,7 +295,7 @@ func (l *Logger) Errorf(format string, v ...interface{}) {
 // Tip: use critical messages for errors which may brake
 // business logic.
 func (l *Logger) Critical(v ...interface{}) {
-	l.criticalLogger.Print(v...)
+	output(l.calldepth, l.criticalLogger, v...)
 }
 
 // Criticalln prints critical message to l.errFile.
@@ -281,7 +304,7 @@ func (l *Logger) Critical(v ...interface{}) {
 // Tip: use critical messages for errors which may brake
 // business logic.
 func (l *Logger) Criticalln(v ...interface{}) {
-	l.criticalLogger.Println(v...)
+	outputln(l.calldepth, l.criticalLogger, v...)
 }
 
 // Criticalf prints critical message to l.errFile.
@@ -290,22 +313,28 @@ func (l *Logger) Criticalln(v ...interface{}) {
 // Tip: use critical messages for errors which may brake
 // business logic.
 func (l *Logger) Criticalf(format string, v ...interface{}) {
-	l.criticalLogger.Printf(format, v...)
+	outputf(l.calldepth, l.criticalLogger, format, v...)
 }
 
 // Panic is equivalent to l.Critical() followed by a call to panic().
 func (l *Logger) Panic(v ...interface{}) {
-	l.criticalLogger.Panic(v...)
+	s := fmt.Sprint(v...)
+	output(l.calldepth, l.criticalLogger, s)
+	panic(s)
 }
 
 // Panicln is equivalent to l.Criticalln() followed by a call to panic().
 func (l *Logger) Panicln(v ...interface{}) {
-	l.criticalLogger.Panicln(v...)
+	s := fmt.Sprintln(v...)
+	outputln(l.calldepth, l.criticalLogger, s)
+	panic(s)
 }
 
 // Panicln is equivalent to l.Criticalf() followed by a call to panic().
 func (l *Logger) Panicf(format string, v ...interface{}) {
-	l.criticalLogger.Panicf(format, v...)
+	s := fmt.Sprintf(format, v...)
+	outputf(l.calldepth, l.criticalLogger, format, s)
+	panic(s)
 }
 
 // Fatal prints fatal message to l.errFile.
@@ -313,7 +342,8 @@ func (l *Logger) Panicf(format string, v ...interface{}) {
 // followed by a call to os.Exit(1).
 // Note: recover() can't intercept Fatal.
 func (l *Logger) Fatal(v ...interface{}) {
-	l.fatalLogger.Fatal(v...)
+	output(l.calldepth, l.fatalLogger, v...)
+	os.Exit(1)
 }
 
 // Fatalln prints fatal message to l.errFile.
@@ -321,7 +351,8 @@ func (l *Logger) Fatal(v ...interface{}) {
 // followed by a call to os.Exit(1).
 // Note: recover() can't intercept Fatalln.
 func (l *Logger) Fatalln(v ...interface{}) {
-	l.fatalLogger.Fatalln(v...)
+	outputln(l.calldepth, l.fatalLogger, v...)
+	os.Exit(1)
 }
 
 // Fatalf prints fatal message to l.errFile.
@@ -329,5 +360,6 @@ func (l *Logger) Fatalln(v ...interface{}) {
 // followed by a call to os.Exit(1).
 // Note: recover() can't intercept Fatalf.
 func (l *Logger) Fatalf(format string, v ...interface{}) {
-	l.fatalLogger.Fatalf(format, v...)
+	outputf(l.calldepth, l.fatalLogger, format, v...)
+	os.Exit(1)
 }
