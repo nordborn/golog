@@ -33,6 +33,7 @@ package golog
 
 import "os"
 
+// will be used in package-level logging functions
 var globalLog = New(customPrefixDefault, FlagsDefault)
 
 // SetPrefix sets the output prefix for the global logger.
