@@ -51,10 +51,16 @@ func (l *Logger) updOutputsToLevel() {
 		l.traceLogger.SetOutput(ioutil.Discard)
 		l.debugLogger.SetOutput(ioutil.Discard)
 	}
+	if l.level == LevelWarning {
+		l.traceLogger.SetOutput(ioutil.Discard)
+		l.debugLogger.SetOutput(ioutil.Discard)
+		l.infoLogger.SetOutput(ioutil.Discard)
+	}
 	if l.level == LevelError {
 		l.traceLogger.SetOutput(ioutil.Discard)
 		l.debugLogger.SetOutput(ioutil.Discard)
 		l.infoLogger.SetOutput(ioutil.Discard)
+		l.warningLogger.SetOutput(ioutil.Discard)
 	}
 }
 
