@@ -24,6 +24,7 @@ type Logger struct {
 	warningLogger  *log.Logger
 	errorLogger    *log.Logger
 	criticalLogger *log.Logger
+	panicLogger    *log.Logger
 	fatalLogger    *log.Logger
 	flags          int
 	customPrefix   string
@@ -40,6 +41,7 @@ func (l *Logger) updInternalLoggers() {
 	l.warningLogger = log.New(l.errFile, PrefixWarning+l.customPrefix, l.flags)
 	l.errorLogger = log.New(l.errFile, PrefixError+l.customPrefix, l.flags)
 	l.criticalLogger = log.New(l.errFile, PrefixCritical+l.customPrefix, l.flags)
+	l.panicLogger = log.New(l.errFile, PrefixPanic+l.customPrefix, l.flags)
 	l.fatalLogger = log.New(l.errFile, PrefixFatal+l.customPrefix, l.flags)
 }
 
@@ -325,21 +327,21 @@ func (l *Logger) Criticalf(format string, v ...interface{}) {
 // Panic is equivalent to l.Critical() followed by a call to panic().
 func (l *Logger) Panic(v ...interface{}) {
 	s := fmt.Sprint(v...)
-	output(l.calldepth, l.criticalLogger, s)
+	output(l.calldepth, l.panicLogger, s)
 	panic(s)
 }
 
 // Panicln is equivalent to l.Criticalln() followed by a call to panic().
 func (l *Logger) Panicln(v ...interface{}) {
 	s := fmt.Sprintln(v...)
-	outputln(l.calldepth, l.criticalLogger, s)
+	outputln(l.calldepth, l.panicLogger, s)
 	panic(s)
 }
 
 // Panicln is equivalent to l.Criticalf() followed by a call to panic().
 func (l *Logger) Panicf(format string, v ...interface{}) {
 	s := fmt.Sprintf(format, v...)
-	outputf(l.calldepth, l.criticalLogger, format, s)
+	outputf(l.calldepth, l.panicLogger, format, s)
 	panic(s)
 }
 
