@@ -6,14 +6,20 @@ import (
 )
 
 func TestStdLog(t *testing.T) {
+	defer func() {
+		if r := recover(); r != nil {
+			Criticalln("Recovered:", r)
+		}
+	}()
 	SetLevel(LevelInfo)
 	Infoln("Initial prefix")
-	SetPrefix("[mylog]:")
+	SetPrefix("mylog:")
 
 	Traceln("You shouldn't see it")
 	Infoln("Custom prefix")
-	Warningln("Warning msg")
-	Errorln("Error message")
+	Warningln("Warning")
+	Errorln("Error")
+	Panicln("Panic")
 
 	SetFlags(log.Ltime | log.Lshortfile)
 	Errorln("Short time")
@@ -22,10 +28,10 @@ func TestStdLog(t *testing.T) {
 }
 
 func TestLogger(t *testing.T) {
-	l := New("[customlog]:", -1)
+	l := New("customlog:", -1)
 	l.SetLevel(LevelInfo)
 	l.Infoln("Initial prefix")
-	l.SetPrefix("[customlog_upd]: ")
+	l.SetPrefix("customlog_upd:")
 	l.SetFlags(-1)
 
 	l.Traceln("You shouldn't see it")
