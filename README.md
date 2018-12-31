@@ -3,7 +3,7 @@ it's a simple logging tool with levels and different outputs for info and error 
 
 So, you can use "golog" for all  
 
-Package golog provides globalLog and Logger which support:
+Package "golog" provides loggerGlobal and Logger (custom logger) which support:
 1. Levels:
 - trace (Trace(), Tracef(), Traceln());
 - debug (Debug(), Debugf(), Debugln());
@@ -14,16 +14,16 @@ Package golog provides globalLog and Logger which support:
 - panic (Panic(), Panicf(), Panicln());
 - fatal (Fatal(), Fatalf(), Fatalln()).
 2. Different outputs:
-- for info-like messages (Trace, Debug, Info) - os.Stdout by default;
-- for error-like messages (Warning, Error, Critical, Panic, Fatal) - os.Stderr by default.
+- for info-like messages (Trace, Debug, Info, Warning) - os.Stdout by default;
+- for error-like messages (Error, Critical, Panic, Fatal) - os.Stderr by default.
 
 You can set:
 1. logging level (LevelTrace, LevelDebug, LevelInfo, LevelWarning, LevelError, LevelCritical).
 In this case, messages from the lower level will be omitted - LevelTrace by default;
 2. custom prefix (e.g. "myapp: ") additionally to level prefixes ("main: " by default);
 3. output io.Writer interfaces:
- - l.outFile for Trace-Info (os.Stdout by default);
- - l.errFile for Warning-Fatal (os.Stderr by default).
+ - l.outWriter for Trace-Warning (os.Stdout by default);
+ - l.errWriter for Error-Fatal (os.Stderr by default).
 
 You can use `SetFlags()` similar to "log" from standard library for time and file information
 ("2018/11/26 16:57:49 golog.go:61" by default).
