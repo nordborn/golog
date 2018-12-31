@@ -23,7 +23,7 @@ In this case, messages from the lower level will be omitted - LevelTrace by defa
 2. custom prefix (e.g. "myapp: ") additionally to level prefixes ("main: " by default);
 3. output io.Writer interfaces:
  - l.outFile for Trace-Info (os.Stdout by default);
- - l.errFile for Error-Fatal (os.Stderr by default).
+ - l.errFile for Warning-Fatal (os.Stderr by default).
 
 You can use `SetFlags()` similar to "log" from standard library for time and file information
 ("2018/11/26 16:57:49 golog.go:61" by default).
@@ -35,7 +35,7 @@ Also, "golog" uses same position conventions as "log": all prefixes are placed b
 
 So, common message using `golog.Infoln("Started")` will be:
 ```
-INFO: main: 2018/11/26 16:57:49 main.go:61: Started
+[INF] main: 2018/11/26 16:57:49 main.go:61: Started
 ```
 
 Tip: in common usage if you don't know which messages you should use, use Infoln() and Errorln().
