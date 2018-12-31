@@ -8,7 +8,7 @@ import (
 func TestStdLog(t *testing.T) {
 	defer func() {
 		if r := recover(); r != nil {
-			Criticalln("Recovered:", r)
+			Criticalln("Bingo. Recovered:", r)
 		}
 	}()
 	SetLevel(LevelInfo)
@@ -19,7 +19,7 @@ func TestStdLog(t *testing.T) {
 	Infoln("Custom prefix")
 	Warningln("Warning")
 	Errorln("Error")
-	Panicln("Panic")
+	Panicln("Panic!!")
 
 	SetFlags(log.Ltime | log.Lshortfile)
 	Errorln("Short time")
