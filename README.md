@@ -36,6 +36,6 @@ So, common message using `golog.Infoln("Started")` will be:
 [INF] main: 2018/11/26 16:57:49 main.go:61: Started
 ```
 
-Tip: in common usage if you don't know which messages you should use, use Infoln() and Errorln().
+Tip: in common usage if you don't know which messages you should use, use `Infoln()` and `Errorln()`.
 
 Enjoy!
