@@ -1,5 +1,5 @@
 //Package golog is a logging package that I'd like to be initially in the standard library.
-//golog provides globalLog and Logger which support:
+//golog provides loggerGlobal and Logger which support:
 //1. Levels:
 //- trace;
 //- debug;
@@ -15,8 +15,8 @@
 //1. logging level (LevelTrace, LevelDebug, LevelInfo, LevelWarning, LevelError, LevelCritical);
 //2. custom prefix (e.g. "[myapp]: ") additionally to level prefixes ("[main]: " by default);
 //3. output file-like interfaces:
-// - l.outFile for Trace-Info (os.Stdout by default);
-// - l.errFile for Error-Fatal (os.Stderr by default).
+// - l.outWriter for Trace-Info (os.Stdout by default);
+// - l.errWriter for Error-Fatal (os.Stderr by default).
 //
 //You can set flag similar to "log" from standard library for time and file information
 //(default provides "2018/11/26 16:57:49 golog.go:61").
@@ -34,16 +34,16 @@ package golog
 import "os"
 
 // will be used in package-level logging functions
-var globalLog = New(customPrefixDefault, FlagsDefault)
+var loggerGlobal = New(customPrefixDefault, FlagsDefault)
 
 // SetPrefix sets the output prefix for the global logger.
 func SetPrefix(p string) {
-	globalLog.SetPrefix(p)
+	loggerGlobal.SetPrefix(p)
 }
 
 // SetFlags sets the output flags for the global logger.
 func SetFlags(f int) {
-	globalLog.SetFlags(f)
+	loggerGlobal.SetFlags(f)
 }
 
 // SetLevel sets the output level for the global logger.
@@ -63,226 +63,226 @@ func SetFlags(f int) {
 // LevelError - to display error messages and above.
 // Default level: LevelTrace
 func SetLevel(level levelType) {
-	globalLog.SetLevel(level)
+	loggerGlobal.SetLevel(level)
 }
 
 // SetOutput sets the output destinations for the global logger
 // (different for out and err).
 func SetOutput(out, err *os.File) {
-	globalLog.SetOutput(out, err)
+	loggerGlobal.SetOutput(out, err)
 }
 
-// Trace prints trace message to globalLog.outFile.
+// Trace prints trace message to loggerGlobal.outWriter.
 // Trace calls l.traceLogger.Print to print to the logger.
 // Arguments are handled in the manner of fmt.Print.
 // Tip: use trace messages for developing process to trace
 // function calls.
 func Trace(v ...interface{}) {
-	globalLog.Trace(v...)
+	loggerGlobal.Trace(v...)
 }
 
-// Traceln prints trace message to globalLog.outFile.
+// Traceln prints trace message to loggerGlobal.outWriter.
 // Traceln calls l.traceLogger.Println to print to the logger.
 // Arguments are handled in the manner of fmt.Println.
 // Tip: use trace messages for developing process to trace
 // function calls.
 func Traceln(v ...interface{}) {
-	globalLog.Traceln(v...)
+	loggerGlobal.Traceln(v...)
 }
 
-// Tracef prints trace message to globalLog.outFile.
+// Tracef prints trace message to loggerGlobal.outWriter.
 // Tracef calls l.traceLogger.Printf to print to the logger.
 // Arguments are handled in the manner of fmt.Println.
 // Tip: use trace messages for developing process to trace
 // function calls.
 func Tracef(format string, v ...interface{}) {
-	globalLog.Tracef(format, v...)
+	loggerGlobal.Tracef(format, v...)
 }
 
-// Debug prints debug message to globalLog.outFile.
+// Debug prints debug message to loggerGlobal.outWriter.
 // Debug calls l.debugLogger.Print to print to the logger.
 // Arguments are handled in the manner of fmt.Print.
 // Tip: use debug messages to debug your business logic.
 func Debug(v ...interface{}) {
-	globalLog.Debug(v...)
+	loggerGlobal.Debug(v...)
 }
 
-// Debugln prints debug message to globalLog.outFile.
+// Debugln prints debug message to loggerGlobal.outWriter.
 // Debugln calls l.debugLogger.Println to print to the logger.
 // Arguments are handled in the manner of fmt.Println.
 // Tip: use debug messages to debug your business logic.
 func Debugln(v ...interface{}) {
-	globalLog.Debugln(v...)
+	loggerGlobal.Debugln(v...)
 }
 
-// Debugf prints debug message to globalLog.outFile.
+// Debugf prints debug message to loggerGlobal.outWriter.
 // Debugf calls l.debugLogger.Printf to print to the logger.
 // Arguments are handled in the manner of fmt.Printf.
 // Tip: use debug messages to debug your business logic.
 func Debugf(format string, v ...interface{}) {
-	globalLog.Debugf(format, v...)
+	loggerGlobal.Debugf(format, v...)
 }
 
-// Info prints info message to globalLog.outFile.
+// Info prints info message to loggerGlobal.outWriter.
 // Info calls l.infoLogger.Print to print to the logger.
 // Arguments are handled in the manner of fmt.Print.
 // Tip: use info messages for common information.
 func Info(v ...interface{}) {
-	globalLog.Info(v...)
+	loggerGlobal.Info(v...)
 }
 
-// Infoln prints info message to globalLog.outFile.
+// Infoln prints info message to loggerGlobal.outWriter.
 // Infoln calls l.infoLogger to print to the logger.
 // Arguments are handled in the manner of fmt.Println.
 // Tip: use info messages for common information.
 func Infoln(v ...interface{}) {
-	globalLog.Infoln(v...)
+	loggerGlobal.Infoln(v...)
 }
 
-// Infof prints info message to globalLog.outFile.
+// Infof prints info message to loggerGlobal.outWriter.
 // Infof calls l.infoLogger to print to the logger.
 // Arguments are handled in the manner of fmt.Printf.
 // Tip: use info messages for common information.
 func Infof(format string, v ...interface{}) {
-	globalLog.Infof(format, v...)
+	loggerGlobal.Infof(format, v...)
 }
 
-// Print is equivalent to globalLog.Info()
+// Print is equivalent to loggerGlobal.Info()
 func Print(v ...interface{}) {
-	globalLog.Print(v...)
+	loggerGlobal.Print(v...)
 }
 
-// Println is equivalent to globalLog.Infoln()
+// Println is equivalent to loggerGlobal.Infoln()
 func Println(v ...interface{}) {
-	globalLog.Println(v...)
+	loggerGlobal.Println(v...)
 }
 
-// Printf is equivalent to globalLog.Infof()
+// Printf is equivalent to loggerGlobal.Infof()
 func Printf(format string, v ...interface{}) {
-	globalLog.Printf(format, v...)
+	loggerGlobal.Printf(format, v...)
 }
 
-// Warning prints warning message to globalLog.errFile.
+// Warning prints warning message to loggerGlobal.errWriter.
 // Warning calls l.warningLogger.Print to print to the logger.
 // Arguments are handled in the manner of fmt.Print.
 // Tip: use warning messages for handled errors which don't brake
 // business logic but should be noted (mostly for developers).
 func Warning(v ...interface{}) {
-	globalLog.Warning(v...)
+	loggerGlobal.Warning(v...)
 }
 
-// Warningln prints warning message to globalLog.errFile.
+// Warningln prints warning message to loggerGlobal.errWriter.
 // Warningln calls l.warningLogger.Println to print to the logger.
 // Arguments are handled in the manner of fmt.Println.
 // Tip: use warning messages for handled errors which don't brake
 // business logic but should be noted (mostly for developers).
 func Warningln(v ...interface{}) {
-	globalLog.Warningln(v...)
+	loggerGlobal.Warningln(v...)
 }
 
-// Warningf prints warning message to globalLog.errFile.
+// Warningf prints warning message to loggerGlobal.errWriter.
 // Warningf calls l.warningLogger.Printf to print to the logger.
 // Arguments are handled in the manner of fmt.Printf.
 // Tip: use warning messages for handled errors which don't brake
 // business logic but should be noted (mostly for developers).
 func Warningf(format string, v ...interface{}) {
-	globalLog.Warningf(format, v...)
+	loggerGlobal.Warningf(format, v...)
 }
 
-// Error prints info message to globalLog.errFile.
+// Error prints info message to loggerGlobal.errWriter.
 // Error calls l.errorLogger.Print to print to the logger.
 // Arguments are handled in the manner of fmt.Print.
 // Tip: use error messages for errors which mostly don't brake
 // business logic.
 func Error(v ...interface{}) {
-	globalLog.Error(v...)
+	loggerGlobal.Error(v...)
 }
 
-// Errorln prints info message to globalLog.errFile.
+// Errorln prints info message to loggerGlobal.errWriter.
 // Errorln calls l.errorLogger.Println to print to the logger.
 // Arguments are handled in the manner of fmt.Println.
 // Tip: use error messages for errors which mostly don't brake
 // business logic.
 func Errorln(v ...interface{}) {
-	globalLog.Errorln(v...)
+	loggerGlobal.Errorln(v...)
 }
 
-// Errorf prints info message to globalLog.errFile.
+// Errorf prints info message to loggerGlobal.errWriter.
 // Errorf calls l.errorLogger.Printf to print to the logger.
 // Arguments are handled in the manner of fmt.Printf.
 // Tip: use error messages for errors which mostly don't brake
 // business logic.
 func Errorf(format string, v ...interface{}) {
-	globalLog.Errorf(format, v...)
+	loggerGlobal.Errorf(format, v...)
 }
 
-// Critical prints critical message to globalLog.errFile.
+// Critical prints critical message to loggerGlobal.errWriter.
 // Critical calls l.criticalLogger.Print to print to the logger.
 // Arguments are handled in the manner of fmt.Print.
 // Tip: use critical messages for errors which may brake
 // business logic.
 func Critical(v ...interface{}) {
-	globalLog.Critical(v...)
+	loggerGlobal.Critical(v...)
 }
 
-// Criticalln prints critical message to globalLog.errFile.
+// Criticalln prints critical message to loggerGlobal.errWriter.
 // Criticalln calls l.criticalLogger.Println to print to the logger.
 // Arguments are handled in the manner of fmt.Println.
 // Tip: use critical messages for errors which may brake
 // business logic.
 func Criticalln(v ...interface{}) {
-	globalLog.Criticalln(v...)
+	loggerGlobal.Criticalln(v...)
 }
 
-// Criticalf prints critical message to globalLog.errFile.
+// Criticalf prints critical message to loggerGlobal.errWriter.
 // Criticalf calls l.criticalLogger.Printf to print to the logger.
 // Arguments are handled in the manner of fmt.Printf.
 // Tip: use critical messages for errors which may brake
 // business logic.
 func Criticalf(format string, v ...interface{}) {
-	globalLog.Criticalf(format, v...)
+	loggerGlobal.Criticalf(format, v...)
 }
 
-// Panic is equivalent to globalLog.Critical() followed by a call to panic().
+// Panic is equivalent to loggerGlobal.Critical() followed by a call to panic().
 func Panic(v ...interface{}) {
-	globalLog.Panic(v...)
+	loggerGlobal.Panic(v...)
 }
 
-// Panicln is equivalent to globalLog.Criticalln() followed by a call to panic().
+// Panicln is equivalent to loggerGlobal.Criticalln() followed by a call to panic().
 func Panicln(v ...interface{}) {
-	globalLog.Panicln(v...)
+	loggerGlobal.Panicln(v...)
 }
 
-// Panicln is equivalent to globalLog.Criticalf() followed by a call to panic().
+// Panicln is equivalent to loggerGlobal.Criticalf() followed by a call to panic().
 func Panicf(format string, v ...interface{}) {
-	globalLog.Panicf(format, v...)
+	loggerGlobal.Panicf(format, v...)
 }
 
-// Fatal prints fatal message to globalLog.errFile.
+// Fatal prints fatal message to loggerGlobal.errWriter.
 // Fatal calls l.fatalLogger.Print to print to the logger
 // followed by a call to os.Exit(1).
 // Note: recover() can't intercept Fatal.
 func Fatal(v ...interface{}) {
-	globalLog.Fatal(v...)
+	loggerGlobal.Fatal(v...)
 }
 
-// Fatalln prints fatal message to l.errFile.
+// Fatalln prints fatal message to l.errWriter.
 // Fatalln calls l.fatalLogger.Print to print to the logger
 // followed by a call to os.Exit(1).
 // Note: recover() can't intercept Fatalf.
 func Fatalln(v ...interface{}) {
-	globalLog.Fatalln(v...)
+	loggerGlobal.Fatalln(v...)
 }
 
-// Fatalf prints fatal message to globalLog.errFile.
+// Fatalf prints fatal message to loggerGlobal.errWriter.
 // Fatalf calls l.fatalLogger.Print to print to the logger
 // followed by a call to os.Exit(1).
 // Note: recover() can't intercept Fatalf.
 func Fatalf(format string, v ...interface{}) {
-	globalLog.Fatalf(format, v...)
+	loggerGlobal.Fatalf(format, v...)
 }
 
 func init() {
 	// necessary to provide correct call point
-	globalLog.setCallDepth(4)
+	loggerGlobal.setCallDepth(4)
 }
