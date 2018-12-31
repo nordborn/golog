@@ -4,30 +4,29 @@ it's a simple logging tool with levels and different outputs for info and error 
 
 Package "golog" provides loggerGlobal and Logger (custom logger) which support:
 1. Levels:
-- trace (Trace(), Tracef(), Traceln());
-- debug (Debug(), Debugf(), Debugln());
-- info (Info(), Infof(), Infoln(), Print(), Printf(), Println();
-- warning (Warning(), Warningf(), Warningln());
-- error (Error(), Errorf(), Errorln());
-- critical (Critical(), Criticalf(), Criticalln());
-- panic (Panic(), Panicf(), Panicln());
-- fatal (Fatal(), Fatalf(), Fatalln()).
+- trace (`Trace(), Tracef(), Traceln()`);
+- debug (`Debug(), Debugf(), Debugln()`);
+- info (`Info(), Infof(), Infoln(), Print(), Printf(), Println()`);
+- warning (`Warning(), Warningf(), Warningln()`);
+- error (`Error(), Errorf(), Errorln()`);
+- critical (`Critical(), Criticalf(), Criticalln()`);
+- panic (`Panic(), Panicf(), Panicln()`);
+- fatal (`Fatal(), Fatalf(), Fatalln()`).
 2. Different outputs:
 - for info-like messages (Trace, Debug, Info, Warning) - os.Stdout by default;
 - for error-like messages (Error, Critical, Panic, Fatal) - os.Stderr by default.
 
 You can set:
-1. logging level (LevelTrace, LevelDebug, LevelInfo, LevelWarning, LevelError, LevelCritical).
+1. logging level `golog.SetLevel(golog.LevelInfo)` (LevelTrace, LevelDebug, LevelInfo, LevelWarning, LevelError, LevelCritical).
 In this case, messages from the lower level will be omitted - LevelTrace by default;
-2. custom prefix (e.g. "myapp: ") additionally to level prefixes ("main: " by default);
-3. output io.Writer interfaces:
+2. custom prefix `golog.SetPrefix("myapp:")` additionally to level prefixes ("main: " by default);
+3. output io.Writer interfaces `golog.SetOutput(myOutLogWriter, myErrLogWriter)`:
  - l.outWriter for Trace-Warning (os.Stdout by default);
  - l.errWriter for Error-Fatal (os.Stderr by default).
-
-You can use `SetFlags()` similar to "log" from standard library for time and file information
+4. flags `golog.SetFlags(log.Ltime | log.Lshortfile)` similar to "log" from standard library for time and file information
 ("2018/11/26 16:57:49 golog.go:61" by default).
 
-You can change level prefixes (defaults are TRC, DBG, INF, ERR, CRT, PNC, FTL) but don't do it
+You can change level prefixes directly (defaults are TRC, DBG, INF, ERR, CRT, PNC, FTL) but don't do it
 if you don't need it really.
 
 Also, "golog" uses same position conventions as "log": all prefixes are placed before time info.
