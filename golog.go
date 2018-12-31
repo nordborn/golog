@@ -162,7 +162,7 @@ func Printf(format string, v ...interface{}) {
 	loggerGlobal.Printf(format, v...)
 }
 
-// Warning prints warning message to loggerGlobal.errWriter.
+// Warning prints warning message to loggerGlobal.outWriter.
 // Warning calls l.warningLogger.Print to print to the logger.
 // Arguments are handled in the manner of fmt.Print.
 // Tip: use warning messages for handled errors which don't brake
@@ -171,7 +171,7 @@ func Warning(v ...interface{}) {
 	loggerGlobal.Warning(v...)
 }
 
-// Warningln prints warning message to loggerGlobal.errWriter.
+// Warningln prints warning message to loggerGlobal.outWriter.
 // Warningln calls l.warningLogger.Println to print to the logger.
 // Arguments are handled in the manner of fmt.Println.
 // Tip: use warning messages for handled errors which don't brake
@@ -180,7 +180,7 @@ func Warningln(v ...interface{}) {
 	loggerGlobal.Warningln(v...)
 }
 
-// Warningf prints warning message to loggerGlobal.errWriter.
+// Warningf prints warning message to loggerGlobal.outWriter.
 // Warningf calls l.warningLogger.Printf to print to the logger.
 // Arguments are handled in the manner of fmt.Printf.
 // Tip: use warning messages for handled errors which don't brake
@@ -266,7 +266,7 @@ func Fatal(v ...interface{}) {
 	loggerGlobal.Fatal(v...)
 }
 
-// Fatalln prints fatal message to l.errWriter.
+// Fatalln prints fatal message to loggerGlobal.errWriter.
 // Fatalln calls l.fatalLogger.Print to print to the logger
 // followed by a call to os.Exit(1).
 // Note: recover() can't intercept Fatalf.

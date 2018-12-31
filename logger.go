@@ -246,7 +246,7 @@ func (l *Logger) Printf(format string, v ...interface{}) {
 	outputf(l.calldepth, l.infoLogger, format, v...)
 }
 
-// Warning prints warning message to l.errWriter.
+// Warning prints warning message to l.outWriter.
 // Warning calls l.warningLogger.Print to print to the logger.
 // Arguments are handled in the manner of fmt.Print.
 // Tip: use warning messages for handled errors which don't brake
@@ -255,7 +255,7 @@ func (l *Logger) Warning(v ...interface{}) {
 	output(l.calldepth, l.warningLogger, v...)
 }
 
-// Warningln prints warning message to l.errWriter.
+// Warningln prints warning message to l.outWriter.
 // Warningln calls l.warningLogger.Println to print to the logger.
 // Arguments are handled in the manner of fmt.Println.
 // Tip: use warning messages for handled errors which don't brake
@@ -264,7 +264,7 @@ func (l *Logger) Warningln(v ...interface{}) {
 	outputln(l.calldepth, l.warningLogger, v...)
 }
 
-// Warningf prints warning message to l.errWriter.
+// Warningf prints warning message to l.outWriter.
 // Warningf calls l.warningLogger.Printf to print to the logger.
 // Arguments are handled in the manner of fmt.Printf.
 // Tip: use warning messages for handled errors which don't brake
