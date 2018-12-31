@@ -1,7 +1,6 @@
 **Package golog is a logging package that I'd like to be initially in Go's (Golang) standard library: 
 it's a simple logging tool with levels and different outputs for info and error messages.**
 
-So, you can use "golog" for all  
 
 Package "golog" provides loggerGlobal and Logger (custom logger) which support:
 1. Levels:
