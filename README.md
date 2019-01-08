@@ -1,6 +1,14 @@
 **Package golog is a logging package that I'd like to be initially in Go's (Golang) standard library: 
 it's a simple logging tool with levels and different outputs for info and error messages.**
 
+**TL;DR**
+```
+golog.Infoln("Started")
+// [INF] main: 2018/11/26 16:57:49 main.go:61: Started
+golog.Errorf("An error %v occured: %v\n", mycode, mymsg)
+// [ERR] main: 2018/11/26 16:57:50 main.go:61: An error 01 occured: just err
+```
+
 
 Package "golog" provides loggerGlobal and Logger (custom logger) which support:
 1. Levels:
