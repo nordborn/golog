@@ -4,9 +4,9 @@ it's a simple logging tool with levels and different outputs for info and error 
 **TL;DR**
 ```
 golog.Infoln("Started")
-// [INF] main: 2018/11/26 16:57:49 main.go:61: Started
+// Output: [INF] main: 2018/11/26 16:57:49 main.go:61: Started
 golog.Errorf("An error %v occured: %v\n", mycode, mymsg)
-// [ERR] main: 2018/11/26 16:57:50 main.go:62: An error 01 occured: just err
+// Output: [ERR] main: 2018/11/26 16:57:50 main.go:62: An error 01 occured: just err
 ```
 
 
