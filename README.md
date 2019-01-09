@@ -2,7 +2,7 @@
 it's a simple logging tool with levels and different outputs for info and error messages.**
 
 **TL;DR**
-```
+```Go
 golog.Infoln("Started")
 // Output: [INF] main: 2018/11/26 16:57:49 main.go:61: Started
 golog.Errorf("An error %v occured: %v\n", mycode, mymsg)
