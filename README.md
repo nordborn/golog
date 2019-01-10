@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.org/nordborn/golog.svg?branch=master)](https://travis-ci.org/nordborn/golog)
+[![Code Coverage](https://codecov.io/gh/nordborn/golog/branch/master/graph/badge.svg)](https://codecov.io/gh/nordborn/golog/branch/master/graph/badge.svg)
+
+
 **Package golog is a logging package that I'd like to be initially in Go's (Golang) standard library: 
 it's a simple logging tool with levels and different outputs for info and error messages.**
 
