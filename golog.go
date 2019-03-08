@@ -31,7 +31,9 @@
 
 package golog
 
-import "os"
+import (
+	"io"
+)
 
 // will be used in package-level logging functions
 var loggerGlobal = New(customPrefixDefault, FlagsDefault)
@@ -68,7 +70,7 @@ func SetLevel(level levelType) {
 
 // SetOutput sets the output destinations for the global logger
 // (different for out and err).
-func SetOutput(out, err *os.File) {
+func SetOutput(out, err io.Writer) {
 	loggerGlobal.SetOutput(out, err)
 }
 
